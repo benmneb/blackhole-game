@@ -5,11 +5,15 @@ body {
 }
 
 body {
-	background-color: #333333;
+	background-color: green;
 	color: #fafafa;
 }
 
 canvas {
 	/* To remove the scrollbars */
 	display: block;
+	/* To put one of top of the other */
+	position: absolute;
+	top: 0;
+	left: 0;
 }
