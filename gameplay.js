@@ -1,6 +1,5 @@
 const canvas = document.querySelector('#game-board');
 const ctx = canvas.getContext('2d');
-const starCountEl = document.querySelector('#star-count');
 
 let holePosition = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let holeRadius = 30;
@@ -16,8 +15,8 @@ document.body.addEventListener('keydown', (e) => keyPress(e, 'down'));
 document.body.addEventListener('keyup', (e) => keyPress(e, 'up'));
 
 function drawCanvas() {
-	ctx.fillStyle = '#000';
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = 'rgba(0,0,0,1)';
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function keyPress(e, action) {
@@ -81,9 +80,9 @@ class Planet {
 	}
 }
 
-// built on https://codepen.io/piyushwalia/pen/JxMbMM
+// Particle and Blackhole built on https://codepen.io/piyushwalia/pen/JxMbMM
 
-// Particles Around the BlackHole
+// Particles around the BlackHole
 class Particle {
 	constructor() {
 		this.angle = Math.random() * 2 * Math.PI;
@@ -131,17 +130,17 @@ class BlackHole {
 	}
 
 	draw() {
-		ctx.beginPath();
 		let gradient = ctx.createRadialGradient(
 			holePosition.x,
 			holePosition.y,
-			holeRadius / 2,
+			holeRadius * 0.75,
 			holePosition.x,
 			holePosition.y,
-			holeRadius * 2
+			holeRadius * 2.5
 		);
-		gradient.addColorStop(0, 'black');
-		gradient.addColorStop(1, 'transparent');
+		gradient.addColorStop(0, 'rgba(0,0,0,1)');
+		gradient.addColorStop(1, 'rgba(0,0,0,0)');
+		ctx.beginPath();
 		ctx.arc(holePosition.x, holePosition.y, holeRadius * 2, 0, Math.PI * 2);
 		ctx.fillStyle = gradient;
 		ctx.fill();
@@ -156,18 +155,10 @@ class BlackHole {
 	}
 
 	move() {
-		if (goUp) {
-			holePosition.y -= this.speed;
-		}
-		if (goDown) {
-			holePosition.y += this.speed;
-		}
-		if (goLeft) {
-			holePosition.x -= this.speed;
-		}
-		if (goRight) {
-			holePosition.x += this.speed;
-		}
+		if (goUp) holePosition.y -= this.speed;
+		if (goDown) holePosition.y += this.speed;
+		if (goLeft) holePosition.x -= this.speed;
+		if (goRight) holePosition.x += this.speed;
 	}
 
 	increaseHoleSize() {
@@ -176,7 +167,6 @@ class BlackHole {
 
 	increaseStarEatenCount() {
 		starsEaten += 1;
-		// starCountEl.textContent = starsEaten;
 		console.log(starsEaten);
 	}
 
